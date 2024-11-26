@@ -85,15 +85,16 @@ export default {
   margin-bottom: 30px;
   color: #056800;
   font-weight: 600;
-  padding: 10px;
-  border-radius: 20px;
 }
+
 .page-explain {
+  margin-left: 20px;
   text-align: center;
   margin-bottom: 20px;
   font-size: 1.2rem;
   color: #000000;
 }
+
 .videos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -125,7 +126,9 @@ export default {
 .video-title {
   font-size: 1.1rem;
   margin: 0 0 10px 0;
-  color: #333;
+  font-size: 1.3rem;
+  margin: 0 0 10px 0;
+  color: rgba(10, 80, 6, 0.938);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;

@@ -12,7 +12,7 @@
           <p>{{ store.testResult.description }}</p>
         </div>
       </div>
-      <hr>
+      
       <div class="recommended-products">
         <h3>추천 금융 상품</h3>
         <ul>
@@ -21,81 +21,53 @@
             <p>{{ product.description }}</p>
           </li>
         </ul>
+        <button @click="moveToTest" class="test-link retake">
+        다시 테스트하기
+        </button>
       </div>
+      
+      <hr>
       <div class="score-summary">
         <h3>테스트 결과 상세</h3>
-        <div class="score-details">
-          <p>나이 점수: {{ store.ageScore ? Math.round(store.ageScore * 0.2) : '0' }} / 20 (20%)</p>
-          <p>소득 점수: {{ store.incomeScore ? Math.round(store.incomeScore * 0.3) : '0' }} / 30 (30%)</p>
-          <p>투자성향 점수: {{ store.habitScore ? Math.round(store.habitScore) : '0' }} / 50 (50%)</p>
-          <p class="final-score">최종 점수: {{ store.finalScore ? Math.round(store.finalScore) : '0' }}</p>
+        <div class="calculator-layout">
+          <!-- 첫 번째 줄: 점수들 -->
+          <div class="scores-row">
+            <div class="score-box">
+              <p>나이 점수</p>
+              <span class="score-value">{{ store.ageScore ? Math.round(store.ageScore * 0.2) : '0' }}</span>
+              <span class="score-total">/20</span>
+            </div>
+            <span class="operator">+</span>
+            <div class="score-box">
+              <p>소득 점수</p>
+              <span class="score-value">{{ store.incomeScore ? Math.round(store.incomeScore * 0.3) : '0' }}</span>
+              <span class="score-total">/30</span>
+            </div>
+            <span class="operator">+</span>
+            <div class="score-box">
+              <p>투자성향 점수</p>
+              <span class="score-value">{{ store.habitScore ? Math.round(store.habitScore) : '0' }}</span>
+              <span class="score-total">/50</span>
+            </div>
+          </div>
+          
+          <!-- 두 번째 줄: 등호 -->
+          <div class="equal-row">
+            <span class="equal-sign">=</span>
+          </div>
+          
+          <!-- 세 번째 줄: 최종 점수 -->
+          <div class="final-score-box">
+            <p>최종 점수</p>
+            <span class="final-score-value">{{ store.finalScore ? Math.round(store.finalScore) : '0' }}</span>
+            <span class="score-total">/100</span>
+          </div>
         </div>
       </div>
-      <button @click="moveToTest" class="test-link retake">
-        다시 테스트하기
-      </button>
-      <div class="type-table">
-        <h3>투자 성향 유형 안내</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>점수</th>
-              <th>유형</th>
-              <th>특성</th>
-              <th>추천 상품</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>90점 이상</td>
-              <td>안정적 장기 투자 선호형</td>
-              <td>안정성과 장기 투자를 선호</td>
-              <td>
-                - 3~5년 장기 예금<br>
-                - 우대 금리 적금
-              </td>
-            </tr>
-            <tr>
-              <td>70~89점</td>
-              <td>중기적 계획적 저축형</td>
-              <td>중기적으로 계획적인 저축 성향</td>
-              <td>
-                - 6개월~12개월 정기 예금<br>
-                - 정기 적금
-              </td>
-            </tr>
-            <tr>
-              <td>50~69점</td>
-              <td>단기 자금 유연 운용형</td>
-              <td>단기적으로 자금 활용을 선호</td>
-              <td>
-                - 1~6개월 정기 예금<br>
-                - 자유 적금
-              </td>
-            </tr>
-            <tr>
-              <td>49점 이하</td>
-              <td>즉시 유동성 필요형</td>
-              <td>즉시 자금 유동성이 필요, 자산 운용이 자유로운 성향</td>
-              <td>
-                - 입출금 자유 예금<br>
-                - 입출금 자유 적금
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+
       <hr>
-    </div>
-    <div v-else class="no-result">
-      <p>먼저 금융 성향 테스트를 완료해주세요!</p>
-      <button @click="moveToTest" class="test-link">
-        테스트 하러가기
-      </button>
-    </div>
-  </div>
-  <div class="financial-products">
-    <h3>예금/적금 추천 상품</h3>
+      <div class="financial-products">
+    <h3 class="recommend-title">당신을 위한 추천 상품!</h3>
     <div class="sort-controls">
       <select v-model="sortOrder" @change="sortProducts">
         <option value="high">금리 높은순</option>
@@ -104,17 +76,19 @@
     </div>
     <div class="products-container">
       <div class="deposits-section">
-        <h4>예금 상품</h4>
-        <div class="view-controls">
-          <button @click="showMoreDeposits" class="show-more-btn" v-if="!showAllDeposits && depositProducts.length > displayCount">
-            더보기 (3개씩)
-          </button>
-          <button @click="showAllDeposits = true" class="view-all-btn" v-if="!showAllDeposits && depositProducts.length > displayCount">
-            전체보기 (+{{ depositProducts.length - displayCount }}개)
-          </button>
-          <button @click="resetDepositView" class="show-less-btn" v-if="showAllDeposits || displayCount > 3">
-            접기
-          </button>
+        <div class="section-header">
+          <h4># 예금 상품</h4>
+          <div class="view-controls">
+            <button @click="showMoreDeposits" class="show-more-btn" v-if="!showAllDeposits && depositProducts.length > displayCount">
+              더보기 (3개씩)
+            </button>
+            <button @click="showAllDeposits = true" class="view-all-btn" v-if="!showAllDeposits && depositProducts.length > displayCount">
+              전체보기 (+{{ depositProducts.length - displayCount }}개)
+            </button>
+            <button @click="resetDepositView" class="show-less-btn" v-if="showAllDeposits || displayCount > 3">
+              접기
+            </button>
+          </div>
         </div>
         <div class="product-cards">
           <div v-for="depositProduct in displayedDepositProducts" :key="depositProduct.fin_prdt_cd" class="product-card" @click="openModal(depositProduct)">
@@ -130,17 +104,19 @@
       </div>
       
       <div class="savings-section">
-        <h4>적금 상품</h4>
-        <div class="view-controls">
-          <button @click="showMoreSavings" class="show-more-btn" v-if="!showAllSavings && savingProducts.length > displayCount">
-            더보기 (3개씩)
-          </button>
-          <button @click="showAllSavings = true" class="view-all-btn" v-if="!showAllSavings && savingProducts.length > displayCount">
-            전체보기 (+{{ savingProducts.length - displayCount }}개)
-          </button>
-          <button @click="resetSavingView" class="show-less-btn" v-if="showAllSavings || displayCount > 3">
-            접기
-          </button>
+        <div class="section-header">
+          <h4># 적금 상품</h4>
+          <div class="view-controls">
+            <button @click="showMoreSavings" class="show-more-btn" v-if="!showAllSavings && savingProducts.length > displayCount">
+              더보기 (3개씩)
+            </button>
+            <button @click="showAllSavings = true" class="view-all-btn" v-if="!showAllSavings && savingProducts.length > displayCount">
+              전체보기 (+{{ savingProducts.length - displayCount }}개)
+            </button>
+            <button @click="resetSavingView" class="show-less-btn" v-if="showAllSavings || displayCount > 3">
+              접기
+            </button>
+          </div>
         </div>
         <div class="product-cards">
           <div v-for="savingProduct in displayedSavingProducts" :key="savingProduct.fin_prdt_cd" class="product-card" @click="openModal(savingProduct)">
@@ -161,6 +137,67 @@
     :product="selectedProduct"
     @close="showModal = false"
   />
+  <hr>
+      <div class="type-table">
+        <h3>투자 성향 유형 안내</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>점수</th>
+              <th>유형</th>
+              <th>특성</th>
+              <th>추천 상품</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>90점 ~</td>
+              <td>꼬꼬마 저축왕 병아리</td>
+              <td>안정성과 장기 투자를 선호</td>
+              <td>
+                - 3~5년 장기 예금<br>
+                - 우대 금리 적금
+              </td>
+            </tr>
+            <tr>
+              <td>70~89점</td>
+              <td>차곡차곡 알토란 병아리</td>
+              <td>중기적으로 계획적인 저축 성향</td>
+              <td>
+                - 6개월~12개월 정기 예금<br>
+                - 정기 적금
+              </td>
+            </tr>
+            <tr>
+              <td>50~69점</td>
+              <td>자유로운 깃털 병아리</td>
+              <td>단기적으로 자금 활용을 선호</td>
+              <td>
+                - 1~6개월 정기 예금<br>
+                - 자유 적금
+              </td>
+            </tr>
+            <tr>
+              <td>~ 49점</td>
+              <td>폴짝폴짝 즉흥 병아리</td>
+              <td>즉시 자금 유동성이 필요, 자산 운용이 자유로운 성향</td>
+              <td>
+                - 입출금 자유 예금<br>
+                - 입출금 자유 적금
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div v-else class="no-result">
+      <p>먼저 금융 성향 테스트를 완료해주세요!</p>
+      <button @click="moveToTest" class="test-link">
+        테스트 하러가기
+      </button>
+    </div>
+  </div>
+
 </template>
 
 <script setup>
@@ -377,44 +414,33 @@ const moveToTest = () => {
 
 const openModal = (product) => {
   selectedProduct.value = {
-    ...product,
-    id: product.id,
-    fin_prdt_nm: product.fin_prdt_nm,
-    kor_co_nm: product.kor_co_nm,
-    etc_note: product.etc_note,
-    join_way: product.join_way,
-    join_deny: product.join_deny,
-    join_member: product.join_member,
-    dcls_strt_day: product.dcls_strt_day,
-    dcls_month: product.dcls_month,
-    fin_co_no: product.fin_co_no,
-    fin_prdt_cd: product.fin_prdt_cd,
-    mtrt_int: product.mtrt_int,
-    spcl_cnd: product.spcl_cnd,
-    max_limit: product.max_limit,
-    dcls_end_day: product.dcls_end_day,
-    fin_co_subm_day: product.fin_co_subm_day,
-    intr_rate: product.options[0]?.intr_rate || 0,
+    name: product.fin_prdt_nm,
     bankName: product.kor_co_nm,
-    productName: product.fin_prdt_nm,
-    interestRate: product.intr_rate,
+    description: product.etc_note,
     joinWay: product.join_way,
-    maxLimit: product.max_limit,
-    specialCondition: product.spcl_cnd,
-    options: product.options.map(opt => ({
-      ...opt,
-      id: `${product.fin_prdt_cd}-${opt.save_trm}`,
-      intr_rate: opt.intr_rate,
-      save_trm: opt.save_trm,
-      dcls_month: opt.dcls_month,
-      fin_prdt_cd: opt.fin_prdt_cd,
+    joinDeny: product.join_deny,
+    joinMember: product.join_member,
+    submitDate: product.dcls_strt_day
+  }
+
+  if (product.options[0]?.rsrv_type) {  // 적금 상품
+    const mappedOptions = product.options.map(opt => ({
+      saveTerm: parseInt(opt.save_trm),
+      interestRate: parseFloat(opt.intr_rate || 0),
+      intrRate2: parseFloat(opt.intr_rate2 || 0),
+      rsrvType: opt.rsrv_type,
+      rsrvTypeNm: opt.rsrv_type === '1' ? '정액적립식' : '자유적립식',
       intr_rate_type: opt.intr_rate_type,
-      intr_rate_type_nm: opt.intr_rate_type_nm,
-      intr_rate2: opt.intr_rate2,
-      interestRate: opt.intr_rate,
-      saveTerm: opt.save_trm
+      intr_rate_type_nm: opt.intr_rate_type_nm
+    }))
+    selectedProduct.value.options = mappedOptions
+  } else {  // 예금 상품
+    selectedProduct.value.options = product.options.map(opt => ({
+      saveTerm: parseInt(opt.save_trm),
+      interestRate: parseFloat(opt.intr_rate || 0)
     }))
   }
+
   showModal.value = true
 }
 
@@ -477,11 +503,17 @@ const sortProducts = () => {
   padding: 0 20px;
 }
 
+.recommend-title {
+  font-weight: bold;
+  color: #056800;
+}
+
 .type-description {
   display: flex;
   align-items: center;
   gap: 20px;
-  margin: 25px 0;
+  margin-top: 25px;
+  margin-bottom: 15px;
   background-color: #e0d4222a;
   padding: 30px;
   border-radius: 10px;
@@ -568,6 +600,15 @@ const sortProducts = () => {
   padding: 20px;
   background-color: #f8f9fa;
   border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),   /* 기본 그림자 */
+              0 1px 3px rgba(0, 0, 0, 0.08);   /* 미세한 그림자 추가 */
+}
+
+.score-summary h3{
+  font-weight: bold;
+  color: #056800;
+  text-align: center;
+  padding: 10px;
 }
 
 .score-details {
@@ -618,7 +659,7 @@ const sortProducts = () => {
 }
 
 .product-card h5 {
-  color: #056800;
+  color: #000000;
   margin-bottom: 10px;
   font-weight: bold;
 }
@@ -657,7 +698,7 @@ const sortProducts = () => {
   border-radius: 5px;
   border: 1px solid #ddd;
   background-color: white;
-  color: #056800;
+  color: #000000;
   font-size: 14px;
   cursor: pointer;
 }
@@ -669,7 +710,7 @@ const sortProducts = () => {
 
 .type-table {
   margin: 30px 0;
-  padding: 20px;
+  padding: 30px;
   background-color: #f8f9fa;
   border-radius: 10px;
 }
@@ -689,6 +730,9 @@ const sortProducts = () => {
 .type-table td {
   padding: 10px;
   text-align: left;
+  font-weight: semibold;
+  font-size: 16px;
+  color: #000000;
 }
 
 .type-table th {
@@ -732,5 +776,109 @@ const sortProducts = () => {
 
 .show-less-btn:hover {
   background: linear-gradient(45deg, #5a6268, #999fa5) !important;
+}
+
+.calculator-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 15px;
+}
+
+.scores-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.score-box, .final-score-box {
+  background-color: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: center;
+  flex: 1;
+  max-width: 200px;
+}
+
+.score-box p {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.operator {
+  font-size: 40px;
+  font-weight: bold;
+  color: #000000;
+  margin: 0 5px;
+}
+
+.equal-row {
+  width: 100%;
+  text-align: center;
+}
+
+.equal-sign {
+  font-size: 40px;
+  font-weight: bold;
+  color: #056800;
+}
+
+.score-value {
+  font-size: 28px;
+  font-weight: bold;
+  color: #056800;
+  margin: 0 5px;
+}
+
+.final-score-box {
+  background-color: #e8f5e9;
+  border: 2px solid #056800;
+  max-width: 300px;
+  padding: 20px 40px;
+}
+
+.final-score-box p {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.final-score-value {
+  font-size: 38px;
+  font-weight: bold;
+  color: #056800;
+  margin: 0 5px;
+}
+
+.score-total {
+  color: #666;
+  font-size: 18px;
+}
+
+p {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-weight: bold;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.section-header h4 {
+  margin: 0;
+}
+
+.view-controls {
+  display: flex;
+  gap: 10px;
 }
 </style>

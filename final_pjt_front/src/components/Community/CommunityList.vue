@@ -48,7 +48,7 @@ const emit = defineEmits(['select-post'])
   max-width: 900px;
   margin: 0 auto;
   padding: 10px 20px;
-  background-color: rgba(247, 249, 250, 0.733);
+  background-color: rgba(247, 249, 250, 0.815);
   border-radius: 25px;
   font-size: 1.05rem;
 }
@@ -60,10 +60,13 @@ const emit = defineEmits(['select-post'])
   width: 100%;
 }
 
+.post-title {
+  color: #000000;
+}
+
 .list-row {
   font-weight: bold;
 }
-
 
 .column, :deep(.post-column) {
   overflow: hidden;
@@ -82,6 +85,7 @@ const emit = defineEmits(['select-post'])
   flex: 1 1 40%;
   text-align: center;
   padding: 0 20px;
+  color: #000000;
 }
 
 .author, :deep(.post-author) {

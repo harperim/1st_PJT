@@ -280,7 +280,7 @@ const chartOptions = {
     y: {
       beginAtZero: false,
       min: 2,
-      max: 4.5,
+      max: 6,
       ticks: {
         stepSize: 0.5,
       },

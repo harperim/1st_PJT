@@ -145,8 +145,8 @@ export const useProfileStore = defineStore('profile', () => {
   const getRecommendedProducts = (score) => {
     if (score >= 90) {
       return {
-        type: '안정적 장기 투자 선호형',
-        image: '/images/conservative.png',
+        type: '꼬꼬마 저축왕 병아리',
+        image: 'src/assets/꼬꼬마병아리.png',
         description: '안정성과 장기 투자를 선호하는 유형입니다.',
         recommendations: [
           { 
@@ -161,8 +161,8 @@ export const useProfileStore = defineStore('profile', () => {
       }
     } else if (score >= 70) {
       return {
-        type: '중기적 계획적 저축형',
-        image: '/images/moderate.png',
+        type: '차곡차곡 알토란 병아리',
+        image: 'src/assets/알토란병아리.png',
         description: '중기적으로 계획적인 저축을 선호하는 유형입니다.',
         recommendations: [
           { 
@@ -177,8 +177,8 @@ export const useProfileStore = defineStore('profile', () => {
       }
     } else if (score >= 50) {
       return {
-        type: '단기 자금 유연 운용형',
-        image: '/images/flexible.png',
+        type: '자유로운 깃털 병아리',
+        image: 'src/assets/깃털병아리.png',
         description: '단기적으로 자금 활용을 선호하는 유형입니다.',
         recommendations: [
           { 
@@ -193,8 +193,8 @@ export const useProfileStore = defineStore('profile', () => {
       }
     } else {
       return {
-        type: '즉시 유동성 필요형',
-        image: '/images/liquid.png',
+        type: '폴짝폴짝 즉흥 병아리',
+        image: 'src/assets/즉흥병아리.png',
         description: '즉시 자금 유동성이 필요하고 자산 운용이 자유로운 성향입니다.',
         recommendations: [
           { 

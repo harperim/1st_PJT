@@ -1,6 +1,7 @@
 <template>
   <div class="books-container">
     <h1 class="page-title">✏️ 도서 추천</h1>
+    <p class="page-explain">엄선된 도서를 통해 시작하는 금융 공부, 재테크 시작!</p>
     <div class="books-grid">
       <div v-for="book in displayedBooks" :key="book.id" class="book-card">
         <div class="book-thumbnail" @click="goToBookSite(book.link)">
@@ -93,9 +94,17 @@ onMounted(() => {
 
 .page-title {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   color: #056800;
   font-weight: 600;
+}
+
+.page-explain {
+  margin-left: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  color: #000000;
 }
 
 .books-grid {
@@ -166,7 +175,7 @@ onMounted(() => {
 .book-title {
   font-size: 1.2rem;
   margin: 0 0 10px 0;
-  color: #333;
+  color: rgba(10, 80, 6, 0.938);
 }
 
 .book-author {
